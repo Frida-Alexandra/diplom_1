@@ -9,9 +9,9 @@ function Header() {
     const { sessionId, username, currentStorageUser } = useContext(Context);
 
     return (
-        <section className="header">
+        <section class="header">
             <div
-                className="header--logo"
+                class="header--logo"
             >
                 <Link
                     to="/"
@@ -22,13 +22,13 @@ function Header() {
             {currentStorageUser
                 ? <UserStorage storageUserId={currentStorageUser} />
                 : null}
-            <div className="header--menu-container">
+            <div class="header--menu-container">
                 {
                     !sessionId
                         ? (
                             <>
                                 <div
-                                    className="header--menu-container--item"
+                                    class="header--menu-container--item"
                                 >
                                     <Link
                                         to="/sign-in"
@@ -37,7 +37,7 @@ function Header() {
                                     </Link>
                                 </div>
                                 <div
-                                    className="header--menu-container--item"
+                                    class="header--menu-container--item"
                                 >
                                     <Link
                                         to="/sign-up"

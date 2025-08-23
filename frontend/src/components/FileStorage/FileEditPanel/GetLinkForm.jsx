@@ -12,7 +12,7 @@ function GetLinkForm({ link, setForm }) {
         <form className="form">
             <h2 className="form--title">Download link</h2>
             <input type="text" readOnly value={link} />
-            <button className="close" onClick={onCloseHandler} aria-label="Close" type="button"><img src={img} alt="close" /></button>
+            <button className="close" onClick={onCloseHandler} aria-label="Close" type="button"><img src="frontend\src\components\formStyle\icons8-close.svg" alt="close" /></button>
         </form>
     );
 }

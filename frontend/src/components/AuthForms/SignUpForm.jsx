@@ -102,7 +102,7 @@ function SignUpForm() {
                         </>
                     )}
                 {err ? err.map((a) => <span key={err.indexOf(a)}>{a}</span>) : null}
-                <button className="close" type="button" aria-label="Close"><Link to="/"><img src={img} alt="close" /></Link></button>
+                <button className="close" type="button" aria-label="Close"><Link to="/"><img src="frontend\src\components\formStyle\icons8-close.svg" alt="close" /></Link></button>
             </form>
             {isLoading ? <Preloader /> : null}
         </>

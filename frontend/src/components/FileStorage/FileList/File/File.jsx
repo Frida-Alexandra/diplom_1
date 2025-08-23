@@ -41,7 +41,7 @@ function File({
             role="button"
             tabIndex={0}
         >
-            <img src={img} alt="file" />
+            <img src="frontend\src\components\FileStorage\FileList\File\file.png" alt="file" />
             <div className={`file-name ${currentFile && currentFile.id === id ? 'current' : ''}`}>{name}</div>
             {showComment
                 ? (
