@@ -26,7 +26,7 @@ $ sudo systemctl status nginx
 ```
 - клонируем репозиторий и заходим в него
 ```
-$ git clone https://github.com/Dimafdr/diplom.git
+$ git clone https://github.com/Frida-Alexandra/diplom_1.git
 $ cd cloud_storage
 ```
 ### База данных
