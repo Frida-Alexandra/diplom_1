@@ -13,14 +13,14 @@ function Header() {
             <div
                 class="header--logo"
             >
-                <Link
+                <link
                     to="/"
                 >
                     Cloud_Service
-                </Link>
+                </link>
             </div>
             {currentStorageUser
-                ? <UserStorage storageUserId={currentStorageUser} />
+                ? <UserStorage storageUserId="currentStorageUser" />
                 : null}
             <div class="header--menu-container">
                 {
@@ -30,24 +30,24 @@ function Header() {
                                 <div
                                     class="header--menu-container--item"
                                 >
-                                    <Link
+                                    <link
                                         to="/sign-in"
                                     >
                                         Sign in
-                                    </Link>
+                                    </link>
                                 </div>
                                 <div
                                     class="header--menu-container--item"
                                 >
-                                    <Link
+                                    <link
                                         to="/sign-up"
                                     >
                                         Sign up
-                                    </Link>
+                                    </link>
                                 </div>
                             </>
                         )
-                        : <Username username={username} />
+                        : <Username username="username" />
                 }
 
             </div>
