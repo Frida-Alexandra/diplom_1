@@ -59,7 +59,9 @@ function SignInForm() {
                 <input type="password" ref={password} placeholder="password" required />
                 <input type="submit" value="OK" required />
                 <span>{error}</span>
-                <button className="close" type="button" aria-label="Close"><Link to="/"><img src="frontend\src\components\formStyle\icons8-close.svg" alt="close" /></Link></button>
+                <button className="close" type="button" aria-label="Close">
+                    <link to="/"> <img src="frontend\src\components\formStyle\icons8-close.svg" alt="close" /> </link>
+                </button>
             </form>
             {isLoading ? <Preloader /> : null}
         </>
