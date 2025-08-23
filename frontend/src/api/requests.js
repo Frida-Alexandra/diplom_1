@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-export const BASE_URL = 'http://80.78.243.26/api/';
+export const BASE_URL = 'http://89.111.155.117/api/';
 
 export function getCsrfCookie() {
     return fetch(`${BASE_URL}auth/get_csrf/`);
@@ -18,7 +18,7 @@ export function logIn(email, password) {
             email,
             password,
         }),
-    });
+    }); 
 }
 
 export function logOut() {
