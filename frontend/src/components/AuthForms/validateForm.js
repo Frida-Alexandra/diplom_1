@@ -57,4 +57,20 @@ const validatePassword = (password) => {
     };
 };
 
-export { validateUsername, validatePassword };
+const validateEmail = (email) => {
+    // Регулярное выражение для проверки корректности email
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(email)) {
+        return {
+            ok: false,
+            message: 'Invalid email format',
+        };
+    }
+
+    return {
+        ok: true,
+    };
+};
+
+export { validateUsername, validatePassword, validateEmail };

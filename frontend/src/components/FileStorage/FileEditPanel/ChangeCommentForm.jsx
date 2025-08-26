@@ -52,7 +52,7 @@ function ChangeCommentForm({ currentFile, setForm, setFiles }) {
                 aria-label="Close"
             >
                 <img
-                    src="frontend\src\components\formStyle\icons8-close.svg"
+                    src={img}
                     alt="Close"
                 />
             </button>

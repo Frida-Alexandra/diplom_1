@@ -4,7 +4,7 @@ import './Preloader.css';
 
 function Preloader() {
     return (
-        <img className="preloader" src="frontend\src\components\Preloader\preloader.gif" alt="preloader" />
+        <img className="preloader" src={preloader} alt="preloader" />
     );
 }
 

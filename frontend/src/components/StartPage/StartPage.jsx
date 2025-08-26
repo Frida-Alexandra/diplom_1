@@ -21,16 +21,16 @@ function StartPage() {
     return (
         !sessionId
             ? (
-                <section class="start-page">
-                    <div class="start-page--welcome">
-                        <h1 class="start-page--welcome--title"> Хранилице под надзором котиков.</h1>
-                        <h2 class="start-page--welcome--subtitle"> Мяу! </h2>
-                        <div class="start-page--welcome--content">
+                <section className="start-page">
+                    <div className="start-page--welcome">
+                        <h1 className="start-page--welcome--title"> Хранилице под надзором котиков.</h1>
+                        <h2 className="start-page--welcome--subtitle"> Мяу! </h2>
+                        <div className="start-page--welcome--content">
                             Cloud_Server - Кошачье хранилище файлов.
                         </div>
-                        <button class="sing-up-button" onClick={onClickHandler} type="button">Начать</button>
+                        <button className="sing-up-button" onClick={onClickHandler} type="button">Начать</button>
                     </div>
-                    <img src="frontend\src\components\StartPage\StartPage.svg" class="start-page--image" alt="StartPage" />
+                    <img src={img} className="start-page--image" alt="StartPage" />
                 </section>
             )
             : null

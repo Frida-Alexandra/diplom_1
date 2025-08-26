@@ -50,7 +50,7 @@ function DeleteFileSubmitForm({
                 aria-label="Close"
             >
                 <img
-                    src="frontend\src\components\formStyle\icons8-close.svg"
+                    src={img}
                     alt="close"
                 />
             </button>
