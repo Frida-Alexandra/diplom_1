@@ -1,178 +1,52 @@
 # Дипломный проект профессии «Fullstack-разработчик на Python»
-Развертывание на сервере
-Готовое: http://89.111.155.117:8000/
 
-- подключаемся к серверу
-```
-$ ssh root@<IP сервера>
-```
-- создаем юзера, даем ему права и подключаемся с ним
-```
-$ adduser <unix_username>
-$ usermod <unix_username> -aG sudo
-$ su - <unix_username>
-```
-- обновляем пакеты, устанавливаем новые
-```
-$ sudo apt update
-$ sudo apt upgrade
-$ sudo apt install python3-venv python3-pip postgresql nginx npm
+Сайт: http://89.111.155.117:8000/
+
+### Backend
+
+```bash
+git clone https://github.com/Frida-Alexandra/diplom_1.git 
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
-- проверяем, что Nginx запущен
-```
-$ sudo systemctl start nginx
-$ sudo systemctl status nginx
-```
-- клонируем репозиторий и заходим в него
-```
-$ git clone https://github.com/Frida-Alexandra/diplom_1.git
-$ cd cloud_storage
-```
-### База данных
-- не забудем установить базу данных, используем пользователя `postgres`
-```
-$ sudo su postgres
-$ psql
+# Настройка .env
+SECRET_KEY=your_secret_key
+DEBUG=True
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASSWORD=yourpassword
+DB_HOST=localhost
+DB_PORT=5432
+ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
 
-# CREATE DATABASE cloud_storage;
-# CREATE USER <username> WITH PASSWORD '<passowrd>';
-# GRANT ALL PRIVILEGES ON DATABASE cloud_storage TO <username>;
-# \q
+```bash
+python manage.py migrate
+python manage.py runserver
+```
+### Frontend
 
-$ exit
-```
-### Бэкенд
-- создаем файл `.env` для указания переменных
-```
-SECRET_KEY // секретный ключ django
-DEBUG // режим отладки True или False
-ALLOWED_HOSTS // допустимые хосты (например, для запуска локально укажите 127.0.0.1)
-// Данные для подключения к базе данных (к той, что создали в пункте 4):
-DB_NAME // имя базы данных (например: my_database)
-DB_USER // имя пользователя базы данных (например: admin)
-DB_PASSWORD // пароль для доступа к базе данных
-DB_HOST // хост базы данных (например: localhost)
-DB_PORT // порт базы данных (например: 5432)
-```
-- создаем и активируем виртуалльное окружение
-```
-$ python3 -m venv env
-$ source ./env/bin/activate
-```
-- устанавливаем зависимости Python, применяем миграции и запускаем бэкенд
-```
-(env) $ pip install -r requirements.txt
-(env) $ python manage.py makemigrations cloud
-(env) $ python manage.py migrate
-```
-### Фронтенд
-
-- Переходим в дирректорию `frontend/`, обновим Node и установим NPM зависимости
-```
-sudo npm cache clean -f
-sudo npm install -g n
-sudo n stable
+```bash
+cd frontend
 npm install
+npm run build
 ```
-- В файле `frontend/src/api/requests.js` в переменной `BASE_URL` установим url, на который будут отправлятся запросы на сервер. Например: `http://127.0.0.1:8000/api/`
-После этого пересоберем бандл фронтенда
-```
-npm run dev
-```
-- Себерем static файлы и запустим наш проект
-```
-(env) $ python manage.py collectstatic
-(env) $ python manage.py createsuperuser
-(env) $ python manage.py runserver 0.0.0.0:8000
-```
-Сейчас Django проект должен быть доступен по адресу http://<IP сервера>:8000.
-- пишем конфиг Gunicorn
-```
-(env) $ sudo nano /etc/systemd/system/gunicorn.service
-```
-В файле пишем следующие настройки (вместо `<unix_username>` надо подставить ваше имя юзера):
-```
-[Unit]
-Description=gunicorn.service
-After=network.target
 
-[Service]
-User=root
-Group=www-data
-WorkingDirectory=/home/<unix_username>/cloud_storage
-ExecStart=/home/<unix_username>/cloud_storage/env/bin/gunicorn \
-    --access-logfile - \
-    --workers=3 \
-    --bind unix:/home/<unix_username>/cloud_storage/booking_cloud/gunicorn.sock booking_cloud.wsgi:application
+### Установка окружения на сервере
 
-[Install]
-WantedBy=multi-user.target
+```bash
+sudo apt update && sudo apt install python3 python3-pip python3-venv postgresql nginx nodejs npm -y
 ```
-- запускаем Gunicorn
-```
-(env) $ sudo systemctl start gunicorn
-(env) $ sudo systemctl enable gunicorn
-```
-- пишем конфиг Nginx
-```
-(env) $ sudo nano /etc/nginx/sites-available/cloud_storage
-```
-В файле пишем следующие настройки (вместо `<unix_username>` надо подставить ваше имя юзера):
-```
-server {
-	listen 80;
-	server_name <server_IP>;
 
-	location /static/ {
-		root /home/<unix_username>/cloud_storage;
-	}
-                
-	location / {
-        include proxy_params;
-        proxy_pass http://unix:/home/<unix_username>/cloud_storage/booking_cloud/gunicorn.sock;
-    }
-	
-}
+### Развёртывание проекта
+
+```bash
+git clone https://github.com/Frida-Alexandra/diplom_1.git
+cd diplom_1
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
 ```
-- делаем ссылку на него
-```
-(env) $ sudo ln -s /etc/nginx/sites-available/cloud_storage /etc/nginx/sites-enabled
-```
-- открываем порты и даем права Nginx
-```
-(env) $ sudo ufw allow 8000
-(env) $ sudo ufw allow 80
-(env) $ sudo ufw allow 'Nginx Full'
-```
-- проверяем, что службы активны
-```
-(env) $ sudo systemctl status gunicorn
-(env) $ sudo systemctl status nginx
-```
-- перезагружаем службы
-```
-(env) $ sudo systemctl daemon-reload
-(env) $ sudo systemctl restart gunicorn
-(env) $ sudo systemctl restart nginx
-```
-Теперь Django проект должен быть доступен по http://<IP сервера> на обычном порту 80. Если видим ошибку 502, то, возможно, делло в правах и меняем существующего юзера на имя нашего юзера:
-```
-(env) $ sudo nano /etc/nginx/nginx.conf
-```
-```
-...
-...
-user <unix_username>
-...
-...
-```
-- перезагружаем службы еще раз и Django проект должен быть доступен по http://<IP сервера> на обычном порту 80:
-```
-(env) $ sudo systemctl daemon-reload
-(env) $ sudo systemctl restart gunicorn
-(env) $ sudo systemctl restart nginx
-```
-- выходим из пользователя обратно в `root`
-```
-(env) $ exit

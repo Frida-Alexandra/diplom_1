@@ -9,50 +9,28 @@ function Header() {
     const { sessionId, username, currentStorageUser } = useContext(Context);
 
     return (
-        <section class="header">
-            <div
-                class="header--logo"
-            >
-                <Link
-                    to="/"
-                >
-                    Cloud_Service
-                </Link>
+        <section className="header">
+            <div className="header--logo">
+                <Link to="/">Cloud_Service</Link>
             </div>
-            {currentStorageUser
-                ? <UserStorage storageUserId="currentStorageUser" />
-                : null}
-            <div class="header--menu-container">
-                {
-                    !sessionId
-                        ? (
-                            <>
-                                <div
-                                    class="header--menu-container--item"
-                                >
-                                    <Link
-                                        to="/sign-in"
-                                    >
-                                        Sign in
-                                    </Link>
-                                </div>
-                                <div
-                                    class="header--menu-container--item"
-                                >
-                                    <Link
-                                        to="/sign-up"
-                                    >
-                                        Sign up
-                                    </Link>
-                                </div>
-                            </>
-                        )
-                        : <Username username="username" />
-                }
-
+            {currentStorageUser && <UserStorage storageUserId={currentStorageUser} />}
+            <div className="header--menu-container">
+                {!sessionId ? (
+                    <>
+                        <div className="header--menu-container--item">
+                            <Link to="/sign-in">Sign in</Link>
+                        </div>
+                        <div className="header--menu-container--item">
+                            <Link to="/sign-up">Sign up</Link>
+                        </div>
+                    </>
+                ) : (
+                    <Username username={username} />
+                )}
             </div>
         </section>
     );
 }
 
 export default Header;
+
