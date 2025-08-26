@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { deleteFile } from '../../../api/requests';
 import state from '../../../GlobalState/state';
 import '../../formStyle/Form.css';
-import img from '../../formStyle/icons8-close.svg';
+import img from 'frontend/src/components/formStyle/icons8-close.svg';
 
 function DeleteFileSubmitForm({
     currentFile, setForm, setFiles, setCurrentFile,

@@ -4,7 +4,7 @@ import { signUp } from '../../api/requests';
 import { validateUsername, validatePassword } from './validateForm';
 import Preloader from '../Preloader/Preloader';
 import '../formStyle/Form.css';
-import img from '../formStyle/icons8-close.svg';
+import img from 'frontend/src/components/formStyle/icons8-close.svg';
 
 function SignUpForm() {
     const email = useRef();

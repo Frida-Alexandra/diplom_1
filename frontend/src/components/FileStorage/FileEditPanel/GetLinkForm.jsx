@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../../formStyle/Form.css';
-import img from '../../formStyle/icons8-close.svg';
+import img from 'frontend/src/components/formStyle/icons8-close.svg';
 
 function GetLinkForm({ link, setForm }) {
     const onCloseHandler = () => {
