@@ -1,5 +1,5 @@
 import React from 'react';
-import preloader from './preloader.gif';
+import preloader from 'frontend\src\components\Preloader\preloader.gif';
 import './Preloader.css';
 
 function Preloader() {
