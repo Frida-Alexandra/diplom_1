@@ -12,7 +12,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-# Настройка .env
+### Настройка .env
+```bash
 SECRET_KEY=your_secret_key
 DEBUG=True
 DB_NAME=postgres
@@ -21,6 +22,7 @@ DB_PASSWORD=yourpassword
 DB_HOST=localhost
 DB_PORT=5432
 ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
+```
 
 ```bash
 python manage.py migrate
