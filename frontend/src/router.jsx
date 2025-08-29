@@ -1,8 +1,6 @@
 /* eslint-disable linebreak-style */
 import React from 'react';
-import {
-    BrowserRouter as Router, Route, Routes,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import StartPage from './components/StartPage/StartPage';
 import Header from './components/Header/Header';
 import SignUpForm from './components/AuthForms/SignUpForm';

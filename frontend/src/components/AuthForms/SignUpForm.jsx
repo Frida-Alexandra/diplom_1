@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signUp } from '../../api/requests';
 import { validateUsername, validatePassword } from './validateForm';
 import Preloader from '../Preloader/Preloader';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading, setError, clearError } from '.frontend/src/redux/slices/authSlice.js'; 
 import '../formStyle/Form.css';
 import img from 'frontend/src/components/formStyle/icons8-close.svg';
 
@@ -15,33 +17,32 @@ function SignUpForm() {
     const password2 = useRef();
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { isLoading, error } = useSelector((state) => state.auth); 
 
-    const [sendRequest, setSendRequest] = useState(false);
     const [page, setPage] = useState(1);
     const [formData, setFormData] = useState({});
-    const [err, setError] = useState();
-    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true);
+            dispatch(setLoading(true));
             const response = await signUp(formData);
             const data = await response.json();
 
             if (!response.ok) {
-                setError(Object.values(data));
-                setIsLoading(false);
+                dispatch(setError(Object.values(data))); 
+                dispatch(setLoading(false));
                 return;
             }
 
-            setIsLoading(false);
+            dispatch(setLoading(false));
             navigate('/sign-in/');
         };
 
-        if (sendRequest) {
+        if (formData.email) {
             fetchData();
         }
-    }, [sendRequest]);
+    }, [formData, dispatch, navigate]);
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -50,12 +51,12 @@ function SignUpForm() {
             const passwordIsValid = validatePassword(password.current.value);
 
             if (!usernameIsValid.ok) {
-                setError([usernameIsValid.message]);
+                dispatch(setError([usernameIsValid.message]));
                 return;
             }
 
             if (!passwordIsValid.ok) {
-                setError([passwordIsValid.message]);
+                dispatch(setError([passwordIsValid.message]));
                 return;
             }
 
@@ -66,45 +67,46 @@ function SignUpForm() {
                 password2: password2.current.value,
             });
 
-            setError();
+            dispatch(clearError()); 
             setPage(2);
             email.current.value = '';
             username.current.value = '';
             return;
         }
+
         const secondPageFormData = {
             first_name: firstName ? firstName.current.value : null,
             last_name: lastName ? lastName.current.value : null,
         };
-        setFormData(Object.assign(formData, secondPageFormData));
-        setSendRequest(true);
+
+        setFormData(prevData => ({ ...prevData, ...secondPageFormData })); 
     };
 
     return (
         <>
             <form className="form" onSubmit={onSubmitHandler}>
                 <h2 className="form--title">Sign Up</h2>
-                {page === 1
-                    ? (
-                        <>
-                            <input type="email" placeholder="email*" ref={email} required />
-                            <input type="text" placeholder="username*" ref={username} required />
-                            <input type="password" placeholder="password*" ref={password} required />
-                            <input type="password" placeholder="repeat password*" ref={password2} required />
-                            <input type="submit" value="OK" />
-                        </>
-                    )
-                    : (
-                        <>
-                            <input type="text" placeholder="first name" ref={firstName} />
-                            <input type="text" placeholder="last name" ref={lastName} />
-                            <input type="submit" value="OK" />
-                        </>
-                    )}
-                {err ? err.map((a) => <span key={err.indexOf(a)}>{a}</span>) : null}
-                <button className="close" type="button" aria-label="Close"><Link to="/"><img src={img} alt="close" /></Link></button>
+                {page === 1 ? (
+                    <>
+                        <input type="email" placeholder="email*" ref={email} required />
+                        <input type="text" placeholder="username*" ref={username} required />
+                        <input type="password" placeholder="password*" ref={password} required />
+                        <input type="password" placeholder="repeat password*" ref={password2} required />
+                        <input type="submit" value="OK" />
+                    </>
+                ) : (
+                    <>
+                        <input type="text" placeholder="first name" ref={firstName} />
+                        <input type="text" placeholder="last name" ref={lastName} />
+                        <input type="submit" value="OK" />
+                    </>
+                )}
+                {error ? error.map((a, index) => <span key={index}>{a}</span>) : null}
+                <button className="close" type="button" aria-label="Close">
+                    <Link to="/"><img src={img} alt="close" /></Link>
+                </button>
             </form>
-            {isLoading ? <Preloader /> : null}
+            {isLoading && <Preloader />}
         </>
     );
 }

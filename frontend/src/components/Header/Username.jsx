@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import Context from '../../GlobalState/state';
-import { logOut } from '../../api/requests';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../api/requests';
+import { setSessionId, setUsername } from '../../slices/authSlice';
 
 function Username({ username }) {
     const [logoutButton, setLogoutButton] = useState(false);
     const [sendRequest, setSendRequest] = useState(false);
-    const { setSessionId, setUsername } = useContext(Context);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await logOut();
+            const response = await logout();
 
             if (response.ok) {
-                setUsername('');
-                setSessionId('');
+                dispatch(setUsername(''));
+                dispatch(setSessionId(''));
 
                 navigate('/');
             }
@@ -26,7 +27,7 @@ function Username({ username }) {
             fetchData();
             setSendRequest(false);
         }
-    }, [sendRequest]);
+    }, [sendRequest, dispatch, navigate]);
 
     const onMouseEnterHandler = () => {
         setLogoutButton(true);

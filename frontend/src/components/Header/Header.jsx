@@ -1,12 +1,22 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import Username from './Username';
-import Context from '../../GlobalState/state';
 import './Header.css';
 import UserStorage from './UserStorage';
+import { logout } from '../../slices/authSlice';
 
 function Header() {
-    const { sessionId, username, currentStorageUser } = useContext(Context);
+    const dispatch = useDispatch();
+    const { sessionId, username, currentStorageUser } = useSelector((state) => ({
+        sessionId: state.auth.sessionId,
+        username: state.auth.username,
+        currentStorageUser: state.storage.currentUser,
+    }));
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
 
     return (
         <section className="header">
@@ -25,7 +35,12 @@ function Header() {
                         </div>
                     </>
                 ) : (
-                    <Username username={username} />
+                    <>
+                        <Username username={username} />
+                        <div className="header--menu-container--item">
+                            <button onClick={handleLogout} type="button">Logout</button>
+                        </div>
+                    </>
                 )}
             </div>
         </section>
@@ -33,4 +48,3 @@ function Header() {
 }
 
 export default Header;
-

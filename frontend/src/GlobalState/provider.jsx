@@ -1,26 +1,26 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
-import Context from './state';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSessionId, setUsername, setIsAdmin } from './userSlice'; 
 import { userMe, getCsrfCookie } from '../api/requests';
 
-export default function ContextProvider({ children }) {
-    const [sessionId, setSessionId] = useState();
-    const [username, setUsername] = useState();
-    const [isAdmin, setIsAdmin] = useState();
-    const [currentStorageUser, setCurrentStorageUser] = useState();
+export default function UserProvider({ children }) {
+    const dispatch = useDispatch();
+    const sessionId = useSelector(state => state.user.sessionId);
 
     const getUserData = async () => {
         const response = await userMe();
         const data = await response.json();
-        setUsername(data.username);
-        setIsAdmin(data.isAdmin);
+        dispatch(setUsername(data.username));
+        dispatch(setIsAdmin(data.isAdmin));
     };
 
     useEffect(() => {
-        setSessionId(Cookies.get('sessionid'));
+        const sessionIdCookie = Cookies.get('sessionid');
+        dispatch(setSessionId(sessionIdCookie));
         getUserData();
-    }, [sessionId]);
+    }, [dispatch]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,23 +32,9 @@ export default function ContextProvider({ children }) {
         }
     }, []);
 
-    const memo = useMemo(() => ({
-        sessionId,
-        setSessionId,
-        username,
-        setUsername,
-        isAdmin,
-        currentStorageUser,
-        setCurrentStorageUser,
-    }));
-
-    return (
-        <Context.Provider value={memo}>
-            {children}
-        </Context.Provider>
-    );
+    return <>{children}</>; 
 }
 
-ContextProvider.propTypes = {
+UserProvider.propTypes = {
     children: PropTypes.element.isRequired,
 };

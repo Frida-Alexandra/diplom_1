@@ -1,25 +1,23 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import state from '../../GlobalState/state';
+import { useDispatch } from 'react-redux';
+import { setCurrentStorageUser } from 'frontend/src/redux/slices/storageSlice.js';
 
 function ToStorageBtn({ userId }) {
-    const { setCurrentStorageUser } = useContext(state);
-
+    const dispatch = useDispatch();
+    
     const onClickHandler = () => {
-        setCurrentStorageUser(userId);
+        dispatch(setCurrentStorageUser(userId)); 
     };
 
     return (
         <Link
-            to={{
-                pathname: '/my-storage',
-            }}
+            to="/my-storage"
             onClick={onClickHandler}
             className="to-storage-btn"
         >
             to storage
-
         </Link>
     );
 }

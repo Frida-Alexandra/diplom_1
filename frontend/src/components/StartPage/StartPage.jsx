@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Context from '../../GlobalState/state';
+import { useSelector } from 'react-redux';
+import { selectSessionId } from 'frontend/src/redux/slices/sessionSlice.js'; 
 import './StartPage.css';
 import img from './StartPage.svg';
 
 function StartPage() {
     const navigate = useNavigate();
-    const { sessionId } = useContext(Context);
-
+    const sessionId = useSelector(selectSessionId); 
     const onClickHandler = () => {
         navigate('/sign-up/');
     };
@@ -16,7 +16,7 @@ function StartPage() {
         if (sessionId) {
             navigate('/my-storage/');
         }
-    }, [sessionId]);
+    }, [sessionId, navigate]);
 
     return (
         !sessionId

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { setIsStaff } from 'frontend/src/redux/slices/staffSlice.js';
 import IsStaffBtn from './IsStaffButton';
 import ToStorageBtn from './ToStorageBtn';
 import { deleteUser, patchUser } from '../../api/requests';
@@ -10,26 +12,25 @@ function User({
     id, username, firstName, lastName, email, numOfFiles, size, isStaff, removeItem,
 }) {
     const [sendRequest, setSendRequest] = useState('');
-    const [_isStaff, _setIsStaff] = useState(isStaff);
+    const [currentIsStaff, setCurrentIsStaff] = useState(isStaff);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchDataDelete = async () => {
             const response = await deleteUser(id);
-
             if (response.ok) {
                 removeItem(id);
             }
         };
 
         const fetchDataPatch = async () => {
-            await patchUser(id, _isStaff);
+            await patchUser(id, currentIsStaff);
         };
 
         if (sendRequest === 'DELETE') {
             fetchDataDelete();
             setSendRequest('');
         }
-
         if (sendRequest === 'PATCH') {
             fetchDataPatch();
             setSendRequest('');
@@ -38,6 +39,13 @@ function User({
 
     const onClickHandler = (method) => {
         setSendRequest(method);
+    };
+
+    const handleStaffChange = () => {
+        const newIsStaff = !currentIsStaff;
+        setCurrentIsStaff(newIsStaff);
+        dispatch(setIsStaff(newIsStaff));
+        onClickHandler('PATCH');
     };
 
     return (
@@ -49,7 +57,7 @@ function User({
             <td>{numOfFiles}</td>
             <td>{size}</td>
             <td>
-                <IsStaffBtn isStaff={_isStaff} setIsStaff={_setIsStaff} onClickHandler={onClickHandler} />
+                <IsStaffBtn isStaff={currentIsStaff} setIsStaff={handleStaffChange} onClickHandler={onClickHandler} />
             </td>
             <td>
                 <ToStorageBtn userId={id} />

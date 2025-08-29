@@ -2,13 +2,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './router';
-import ContextProvider from './GlobalState/provider';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <ContextProvider>
-        <App />
-    </ContextProvider>,
+    <Provider store={store}>
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    </Provider>
 );

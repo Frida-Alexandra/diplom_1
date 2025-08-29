@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import User from './User';
 import { getUserList } from '../../api/requests';
+import { setUsers } from 'frontend/src/redux/slices/userSlice.js'; 
 import './AdminPanel.css';
 
 function UsersList() {
-    const [renderedData, setRenderedData] = useState(null);
+    const dispatch = useDispatch();
+    const renderedData = useSelector((state) => state.users.renderedData); 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -12,16 +15,15 @@ function UsersList() {
             const data = await response.json();
 
             if (response.ok) {
-                setRenderedData(data);
+                dispatch(setUsers(data)); 
             }
         };
 
         fetchData();
-    }, []);
+    }, [dispatch]);
 
     const removeItem = (id) => {
-        const newRenderedData = renderedData.filter((item) => item.id !== id);
-        setRenderedData(newRenderedData);
+        dispatch(removeUser(id)); 
     };
 
     return (
@@ -38,24 +40,20 @@ function UsersList() {
                 </tr>
             </thead>
             <tbody>
-                {
-                    renderedData
-                        ? renderedData.map((user) => (
-                            <User
-                                key={user.id}
-                                id={user.id}
-                                username={user.username}
-                                firstName={user.first_name}
-                                lastName={user.last_name}
-                                email={user.email}
-                                numOfFiles={user.count}
-                                size={(user.size * 9.537 * 10 ** -7).toFixed(2)}
-                                isStaff={user.is_staff}
-                                removeItem={removeItem}
-                            />
-                        ))
-                        : null
-                }
+                {renderedData.length > 0 ? renderedData.map((user) => (
+                    <User
+                        key={user.id}
+                        id={user.id}
+                        username={user.username}
+                        firstName={user.first_name}
+                        lastName={user.last_name}
+                        email={user.email}
+                        numOfFiles={user.count}
+                        size={(user.size * 9.537 * 10 ** -7).toFixed(2)}
+                        isStaff={user.is_staff}
+                        removeItem={removeItem}
+                    />
+                )) : null}
             </tbody>
         </table>
     );

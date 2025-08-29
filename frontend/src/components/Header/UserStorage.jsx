@@ -1,22 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Context from '../../GlobalState/state';
+import { setCurrentStorageUser } from '../../features/storageSlice';
 
 function UserStorage({ storageUserId }) {
-    const { setCurrentStorageUser } = useContext(Context);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const onClickHandler = () => {
-        setCurrentStorageUser();
+        dispatch(setCurrentStorageUser(null));
         navigate('/');
     };
 
     return (
         <div className="storage-user">
-            <span
-                className="storage-user-id"
-            >
+            <span className="storage-user-id">
                 {`User storage with ID ${storageUserId}`}
             </span>
             <button

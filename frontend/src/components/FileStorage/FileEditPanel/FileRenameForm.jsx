@@ -1,26 +1,24 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import '../../formStyle/Form.css';
 import img from 'frontend/src/components/formStyle/icons8-close.svg';
 import { patchFile } from '../../../api/requests';
-import state from '../../../GlobalState/state';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from 'frontend/src/redux/slices/userSlice.js';
 
 function FileRenameForm({ currentFile, setForm, setFiles }) {
     const newFileName = useRef();
-    const { currentStorageUser } = useContext(state);
-
+    const currentStorageUser = useSelector(selectCurrentUser); 
     useEffect(() => {
         newFileName.current.value = currentFile.native_file_name;
-    }, []);
+    }, [currentFile.native_file_name]);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
 
-        const patchData = currentFile;
-        patchData.native_file_name = newFileName.current.value;
+        const patchData = { ...currentFile, native_file_name: newFileName.current.value };
 
         let response;
-
         if (currentStorageUser) {
             response = await patchFile(patchData, currentStorageUser);
         } else {
@@ -28,7 +26,6 @@ function FileRenameForm({ currentFile, setForm, setFiles }) {
         }
 
         const data = await response.json();
-
         if (response.ok) {
             setFiles(data);
             setForm();
@@ -42,8 +39,8 @@ function FileRenameForm({ currentFile, setForm, setFiles }) {
     return (
         <form className="form" onSubmit={onSubmitHandler}>
             <h2 className="form-title">Rename file</h2>
-            <input type="text" placeholder="new name" ref={newFileName} />
-            <input type="submit" value="OK" required />
+            <input type="text" placeholder="new name" ref={newFileName} required />
+            <input type="submit" value="OK" />
             <button
                 className="close"
                 onClick={onCloseHandler}

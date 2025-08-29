@@ -1,11 +1,10 @@
-import React, {
-    useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Preloader from '../Preloader/Preloader';
 import { logIn } from '../../api/requests';
-import Context from '../../GlobalState/state';
+import { useDispatch } from 'react-redux';
+import { setSessionId } from 'frontend/src/redux/slices/sessionSlice.js'; 
 import '../formStyle/Form.css';
 import img from 'frontend/src/components/formStyle/icons8-close.svg';
 
@@ -16,8 +15,7 @@ function SignInForm() {
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-
-    const { setSessionId } = useContext(Context);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,10 +31,9 @@ function SignInForm() {
                 return;
             }
 
-            setSessionId(Cookies.get('sessionid'));
+            dispatch(setSessionId(Cookies.get('sessionid'))); 
 
             navigate('/my-storage/');
-
             setSendRequest(false);
             setIsLoading(false);
         };
@@ -44,7 +41,7 @@ function SignInForm() {
         if (sendRequest) {
             fetchData();
         }
-    }, [sendRequest]);
+    }, [sendRequest, dispatch, navigate]);
 
     const onSubmitHandler = (e) => {
         e.preventDefault();

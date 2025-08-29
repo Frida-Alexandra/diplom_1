@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import UsersList from './UsersList';
 import './AdminPanel.css';
-import Context from '../../GlobalState/state';
 
 function AdminPanel() {
-    const { isAdmin } = useContext(Context);
+    const isAdmin = useSelector((state) => state.admin.isAdmin); 
 
     if (!isAdmin) {
         return (
@@ -13,7 +13,6 @@ function AdminPanel() {
             </div>
         );
     }
-
     return <UsersList />;
 }
 

@@ -1,14 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import FileInput from './FileEditPanel/FileInput';
 import FileList from './FileList/FileList';
 import FileEditPanel from './FileEditPanel/FileEditPanel';
 import { postFile, getFiles, getUserFiles } from '../../api/requests';
-import state from '../../GlobalState/state';
+import { selectCurrentUser } from 'frontend/src/redux/slices/userSlice.js';
+import { setFiles, addFile, selectFiles } from 'frontend/src/redux/slices/fileSlice.js';
 
 function FileStorage() {
+    const dispatch = useDispatch();
     const [currentFile, setCurrentFile] = useState();
-    const [files, setFiles] = useState([]);
-    const { currentStorageUser: currentStorageUserId } = useContext(state);
+    const currentStorageUserId = useSelector(selectCurrentUser);
+    const files = useSelector(selectFiles);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,12 +24,11 @@ function FileStorage() {
             }
 
             const data = await response.json();
-
-            setFiles(data);
+            dispatch(setFiles(data));
         };
 
         fetchData();
-    }, []);
+    }, [currentStorageUserId, dispatch]);
 
     const sendFile = async (file) => {
         const formData = new FormData();
@@ -35,7 +37,7 @@ function FileStorage() {
         const response = await postFile(formData);
         const data = await response.json();
 
-        setFiles(data);
+        dispatch(addFile(data));
     };
 
     return (
@@ -46,15 +48,13 @@ function FileStorage() {
                 currentFile={currentFile}
             />
             <FileInput sendFile={sendFile} />
-            {currentFile
-                ? (
-                    <FileEditPanel
-                        currentFile={currentFile}
-                        setFiles={setFiles}
-                        setCurrentFile={setCurrentFile}
-                    />
-                )
-                : null}
+            {currentFile && (
+                <FileEditPanel
+                    currentFile={currentFile}
+                    setFiles={dispatch(setFiles)}
+                    setCurrentFile={setCurrentFile}
+                />
+            )}
         </>
     );
 }
