@@ -149,23 +149,18 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
 
       ```
       server {
-         listen 80;
-         server_name <ИМЯ ДОМЕНА ИЛИ IP АДРЕС СЕРВЕРА>;
+        listen 80;
+        server_name 89.111.155.117;
 
-         location = /favicon.ico {
-            access_log off;
-            log_not_found off;
-         }
+        location /static/ {
+                root /home/frid/diplom_1/backend;
+        }
 
-         location /static/ {
-            root /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/diplom_1/backend;
-         }
+        location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/frid/diplom_1/backend/gunicorn.sock>
+    }
 
-         location / {
-            include proxy_params;
-            proxy_pass http://unix:/run/gunicorn.sock;
-         }
-      }
       ```
 29. Создаем символическую ссылку:\
    `sudo ln -s /etc/nginx/sites-available/mycloud /etc/nginx/sites-enabled`
