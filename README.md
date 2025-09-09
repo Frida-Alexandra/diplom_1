@@ -2,6 +2,8 @@
 
 Сайт: http://89.111.155.117:3000/
 
+---
+
 ### Backend
 
 1. `git clone https://github.com/Frida-Alexandra/diplom_1.git`
@@ -36,6 +38,7 @@ DB_HOST=localhost
 DB_PORT=5432
 ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
 ```
+---
 
 ### Frontend
 
@@ -46,11 +49,12 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `npm i`
 4. Запускаем приложение:\
    `npm run dev`
----
 5. Проверяем доступность сайта по адресу:\
    `http://localhost:3000`
 6. Проверяем доступность сайта администратора по адресу:\
    `http://localhost:8000/admin/`
+
+---
 
 ### Развёртывание проекта
 
@@ -79,7 +83,7 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
 12. Клонируем репозиторий:\
    `git clone https://github.com/Frida-Alexandra/diplom_1.git`
 13. Переходим в папку проекта `backend`:\
-   `cd /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/Diplom_MyCloud/backend`
+   `cd /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/diplom_1/backend`
 14. Устанавливаем виртуальное окружение:\
    `python3 -m venv venv`
 15. Активируем виртуальное окружение:\
@@ -96,9 +100,10 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `python manage.py collectstatic`
 21. Запускаем сервер:\
    `python manage.py runserver 0.0.0.0:8000`
-22. Проверяем работу `gunicorn`:\
+---
+23. Проверяем работу `gunicorn`:\
    `gunicorn mycloud.wsgi -b 0.0.0.0:8000`
-23. Создаем файл `gunicorn.socket`:\
+24. Создаем файл `gunicorn.socket`:\
    `sudo nano /etc/systemd/system/gunicorn.socket`
 
       ```
@@ -111,7 +116,7 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
       [Install]
       WantedBy=sockets.target
       ```
-24. Создаем файл `gunicorn.service`:\
+25. Создаем файл `gunicorn.service`:\
    `sudo nano /etc/systemd/system/gunicorn.service`
 
       ```
@@ -133,12 +138,13 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
       [Install]
       WantedBy=multi-user.target
       ```
-25. Запускаем файл `gunicorn.socket`:\
+26. Запускаем файл `gunicorn.socket`:\
    `sudo systemctl start gunicorn.socket`\
    `sudo systemctl enable gunicorn.socket`
-26. Проверяем статус `gunicorn`:\
+27. Проверяем статус `gunicorn`:\
    `sudo systemctl status gunicorn`
-27. Создаем модуль `nginx`:\
+---
+28. Создаем модуль `nginx`:\
    `sudo nano /etc/nginx/sites-available/mycloud`
 
       ```
@@ -161,42 +167,43 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
          }
       }
       ```
-28. Создаем символическую ссылку:\
+29. Создаем символическую ссылку:\
    `sudo ln -s /etc/nginx/sites-available/mycloud /etc/nginx/sites-enabled`
-29. Добавляем пользователя `www-data` в группу текущего пользователя:\
+30. Добавляем пользователя `www-data` в группу текущего пользователя:\
    `sudo usermod -a -G ${USER} www-data`
-30. Диагностируем `nginx` на предмет ошибок в синтаксисе:\
+31. Диагностируем `nginx` на предмет ошибок в синтаксисе:\
    `sudo nginx -t`
-31. Перезапускаем веб-сервер:\
+32. Перезапускаем веб-сервер:\
    `sudo systemctl restart nginx`
-32. Проверяем статус `nginx`:\
+33. Проверяем статус `nginx`:\
    `sudo systemctl status nginx`
-33. При помощи `firewall` даем полные права `nginx` для подключений:\
+34. При помощи `firewall` даем полные права `nginx` для подключений:\
    `sudo ufw allow 'Nginx Full'`
-34. Устанавливаем [Node Version Manager] (nvm):\
+---
+36. Устанавливаем [Node Version Manager] (nvm):\
    `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash`
-35. Добавляем переменную окружения:
+37. Добавляем переменную окружения:
 
       ```
       export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
       ```
-36. Проверяем версию `nvm`:\
+38. Проверяем версию `nvm`:\
    `nvm -v`
-37. Устанавливаем нужную версию `node`:\
+39. Устанавливаем нужную версию `node`:\
    `nvm install <НОМЕР ВЕРСИИ>`
-38. Проверяем версию `node`:\
+40. Проверяем версию `node`:\
    `node -v`
-39. Проверяем версию `npm`:\
+41. Проверяем версию `npm`:\
    `npm -v`
-40. Переходим в папку проекта `frontend`:\
+42. Переходим в папку проекта `frontend`:\
    `cd /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/diplom_1/frontend`
-41. В папке `frontend` создаем файл `.env` и указываем в нем базовый URL:\
+43. В папке `frontend` создаем файл `.env` и указываем в нем базовый URL:\
    `nano .env`\
    `VITE_BASE_URL=http://<IP АДРЕС СЕРВЕРА>/api`
-42. Устанавливаем зависимости:\
+44. Устанавливаем зависимости:\
    `npm i`
-43. Создаем файл `start.sh`:\
+45. Создаем файл `start.sh`:\
    `nano start.sh`
 
       ```
@@ -204,9 +211,9 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
       . /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/.nvm/nvm.sh
       npm run dev
       ```
-44. Делаем файл `start.sh` исполняемым:\
+46. Делаем файл `start.sh` исполняемым:\
    `chmod +x /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/diplom_1/frontend/start.sh`
-45. Создаем файл `frontend.service`:\
+47. Создаем файл `frontend.service`:\
    `sudo nano /etc/systemd/system/frontend.service`
 
       ```
@@ -223,10 +230,10 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
       [Install]
       WantedBy=multi-user.target
       ```
-46. Запускаем сервис `frontend`:\
+48. Запускаем сервис `frontend`:\
    `sudo systemctl start frontend`\
    `sudo systemctl enable frontend`
-47. Проверяем статус сервиса `frontend`:\
+49. Проверяем статус сервиса `frontend`:\
    `sudo systemctl status frontend`
 ---
 48.  Проверяем доступность сайта по адресу:\
