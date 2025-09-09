@@ -64,12 +64,10 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `logout`
 5. Подключаемся к серверу под новым пользователем:\
    `ssh <ИМЯ ПОЛЬЗОВАТЕЛЯ>@<IP АДРЕС СЕРВЕРА>`
----
 6. Скачиваем обновления пакетов `apt`, чтобы пользоваться их актуальными релизами:\
    `sudo apt update`
 7. Устанавливаем необходимые пакеты:\
    `sudo apt install python3-venv python3-pip postgresql nginx`
----
 8. Заходим в панель `psql` под пользователем `postgres`:\
    `sudo -u postgres psql`
 9. Задаем пароль для пользователя `postgres`:\
@@ -78,7 +76,6 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `CREATE DATABASE mycloud;`
 11. Выходим из панели `psql`:\
     `\q`
----
 12. Клонируем репозиторий:\
    `git clone https://github.com/Frida-Alexandra/diplom_1.git`
 13. Переходим в папку проекта `backend`:\
@@ -89,7 +86,6 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `source venv/bin/activate`
 16. Устанавливаем зависимости:\
    `pip install -r requirements.txt`
----
 17. В папке `backend` создаем файл `.env` 
    `nano .env`
 18. Применяем миграции:\
@@ -100,7 +96,6 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `python manage.py collectstatic`
 21. Запускаем сервер:\
    `python manage.py runserver 0.0.0.0:8000`
----
 22. Проверяем работу `gunicorn`:\
    `gunicorn mycloud.wsgi -b 0.0.0.0:8000`
 23. Создаем файл `gunicorn.socket`:\
@@ -143,7 +138,6 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `sudo systemctl enable gunicorn.socket`
 26. Проверяем статус `gunicorn`:\
    `sudo systemctl status gunicorn`
----
 27. Создаем модуль `nginx`:\
    `sudo nano /etc/nginx/sites-available/mycloud`
 
@@ -179,8 +173,6 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `sudo systemctl status nginx`
 33. При помощи `firewall` даем полные права `nginx` для подключений:\
    `sudo ufw allow 'Nginx Full'`
----
-
 34. Устанавливаем [Node Version Manager] (nvm):\
    `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash`
 35. Добавляем переменную окружения:
@@ -197,7 +189,6 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `node -v`
 39. Проверяем версию `npm`:\
    `npm -v`
----
 40. Переходим в папку проекта `frontend`:\
    `cd /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/diplom_1/frontend`
 41. В папке `frontend` создаем файл `.env` и указываем в нем базовый URL:\
