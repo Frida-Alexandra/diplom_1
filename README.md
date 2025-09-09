@@ -15,17 +15,20 @@
    `venv/Scripts/activate`
 5. Устанавливаем зависимости:\
    `pip install -r requirements.txt`
-6. В папке `backend` создаем файл `.env`
-7. Создаем базу данных, с учетом настроек указанных в файле `.env`:\
+6. В папке `backend` создаем файл:\
+   `.env`
+8. Создаем базу данных, с учетом настроек указанных в файле `.env`:\
    `createdb -U <DB_USER> <DB_NAME>`\
    Пароль: `<DB_PASSWORD>`
-8. Применяем миграции:\
+9. Применяем миграции:\
    `python manage.py migrate`
-9. Создаем администратора (суперпользователя) с указанными в файле `.env` данными:\
+10. Создаем администратора (суперпользователя) с указанными в файле `.env` данными:\
    `python manage.py create_superuser`
-10. Запускаем сервер:\
+11. Запускаем сервер:\
    `python manage.py runserver` (при DEBUG=True)\
    `python manage.py runserver --insecure` (при DEBUG=False)
+
+---
 
 ### Настройка .env
 ```bash
@@ -72,33 +75,35 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `sudo apt update`
 7. Устанавливаем необходимые пакеты:\
    `sudo apt install python3-venv python3-pip postgresql nginx`
-8. Заходим в панель `psql` под пользователем `postgres`:\
+---
+9. Заходим в панель `psql` под пользователем `postgres`:\
    `sudo -u postgres psql`
-9. Задаем пароль для пользователя `postgres`:\
+10. Задаем пароль для пользователя `postgres`:\
    `ALTER USER postgres WITH PASSWORD 'postgres';`
-10. Создаем базу данных:\
+11. Создаем базу данных:\
    `CREATE DATABASE mycloud;`
-11. Выходим из панели `psql`:\
+12. Выходим из панели `psql`:\
     `\q`
-12. Клонируем репозиторий:\
+---
+14. Клонируем репозиторий:\
    `git clone https://github.com/Frida-Alexandra/diplom_1.git`
-13. Переходим в папку проекта `backend`:\
+15. Переходим в папку проекта `backend`:\
    `cd /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/diplom_1/backend`
-14. Устанавливаем виртуальное окружение:\
+16. Устанавливаем виртуальное окружение:\
    `python3 -m venv venv`
-15. Активируем виртуальное окружение:\
+17. Активируем виртуальное окружение:\
    `source venv/bin/activate`
-16. Устанавливаем зависимости:\
+18. Устанавливаем зависимости:\
    `pip install -r requirements.txt`
-17. В папке `backend` создаем файл `.env` 
+19. В папке `backend` создаем файл `.env` 
    `nano .env`
-18. Применяем миграции:\
+20. Применяем миграции:\
    `python manage.py migrate`
-19. Создаем администратора (суперпользователя):\
+21. Создаем администратора (суперпользователя):\
    `python manage.py create_superuser`
-20. Собираем весь статичный контент в одной папке (`static`) на сервере:\
+22. Собираем весь статичный контент в одной папке (`static`) на сервере:\
    `python manage.py collectstatic`
-21. Запускаем сервер:\
+23. Запускаем сервер:\
    `python manage.py runserver 0.0.0.0:8000`
 ---
 23. Проверяем работу `gunicorn`:\
