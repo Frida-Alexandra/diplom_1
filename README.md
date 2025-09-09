@@ -145,7 +145,7 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
    `sudo systemctl status gunicorn`
 ---
 28. Создаем модуль `nginx`:\
-   `sudo nano /etc/nginx/sites-available/mycloud`
+   `sudo nano /etc/nginx/sites-available/diplom_1`
 
       ```
       server {
@@ -163,7 +163,7 @@ ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
 
       ```
 29. Создаем символическую ссылку:\
-   `sudo ln -s /etc/nginx/sites-available/mycloud /etc/nginx/sites-enabled`
+   `sudo ln -s /etc/nginx/sites-available/diplom_1 /etc/nginx/sites-enabled`
 30. Добавляем пользователя `www-data` в группу текущего пользователя:\
    `sudo usermod -a -G ${USER} www-data`
 31. Диагностируем `nginx` на предмет ошибок в синтаксисе:\
