@@ -1,0 +1,20 @@
+#django
+SECRET_KEY='secret_key'
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1,89.111.155.117
+
+#БД
+DB_NAME=db_name
+DB_USER=db_user
+DB_PASSWORD=db_password
+DB_HOST=db_host
+DB_PORT=5432
+
+#admin
+ADMIN_USERNAME=admin
+ADMIN_FULLNAME=Admin Fullname
+ADMIN_EMAIL=admin@diplom.ru
+ADMIN_PASSWORD=admin
+
+#хранение файлов
+STORAGE_FOLDER=storage
